@@ -1,0 +1,40 @@
+<style>
+    .btn-space {
+        margin-right: 10px;
+    }
+
+    myModal {
+        z-index: 2147483647;
+    }
+
+    .disabledDiv {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+</style>
+
+<div ng-init="vm.init()">
+    <div class="container" style="overflow-y: auto; overflow-x: hidden; height: 425px">
+        <form>
+            <div class="mx-auto" style="width: 200px;">
+                <h5 class="modal-title">Cadastro Perfil</h5>
+            </div>
+            <div class="form-group">
+                <label for="nomePerfil">Nome: </label>
+                <input type="nome" class="form-control" id="nomePerfil" ng-model="vm.perfil.nome"
+                    placeholder="Digite o nome da pessoa ..." />
+            </div>
+            <div class="form-group">
+                <label for="descricaoPerfil">Descricao</label>
+                <input type="text" class="form-control" id="descricaoPerfil" ng-model="vm.perfil.descricao" />
+            </div>
+        </form>
+
+
+        <button type="button" class="btn btn-primary btn-space" ng-click="vm.incluir(vm.perfil)">
+            Salvar
+        </button>
+        <button type="button" class="btn btn-danger" ng-click="vm.cancelar()">
+            Cancelar
+        </button>
+    </div>

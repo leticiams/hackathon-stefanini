@@ -1,0 +1,10 @@
+{
+    // See http://jshint.com/docs/ for more details
+
+    "trailing": true,
+    "eqeqeq": true,
+    "white": true,
+    "funcscope": true,
+    "onecase": false,
+    "esversion": 6
+}

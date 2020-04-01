@@ -1,0 +1,86 @@
+<style>
+  .disabledDiv {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+</style>
+
+<div ng-init="vm.init()" style="overflow-y: auto; overflow-x: hidden; ">
+  <div class="container">
+    <div
+      ng-class="{'disabledDiv': vm.endereco !== undefined}"
+      style="text-align: right;"
+    >
+      <img
+        src="../../../app/imagens/bootstrap-icons/icons/document-richtext.svg"
+        style="cursor: pointer;"
+        alt=""
+        width="25"
+        height="25"
+        title="Incluir Pessoa"
+        ng-click="vm.editar()"
+      />
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Nome</th>
+          <th scope="col">E-mail</th>
+          <th scope="col">Editar</th>
+          <th scope="col">Excluir</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="pessoa in vm.listaPessoasMostrar">
+          <td>{{pessoa.id}}</td>
+          <td>{{pessoa.nome}}</td>
+          <td>{{pessoa.email}}</td>
+          <td>
+            <img
+              src="../../../app/imagens/bootstrap-icons/icons/pencil.svg"
+              style="cursor: pointer;"
+              alt=""
+              width="25"
+              height="25"
+              title="Editar"
+              ng-click="vm.editar(pessoa.id)"
+            />
+          </td>
+
+          <td>
+            <img
+              src="../../../app/imagens/bootstrap-icons/icons/trash.svg"
+              style="cursor: pointer;"
+              alt=""
+              width="25"
+              height="25"
+              title="Excluir"
+              ng-click="vm.remover(pessoa.id)"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <nav class="row" style="float: right; padding-right: 20px;">
+    <ul class="pagination">
+      <li ng-class="{'page-item': true, 'disabledDiv': vm.currentPage === 1}">
+        <a class="page-link" ng-click="vm.retrocederPaginanacao()">Anterior</a>
+      </li>
+      <li
+        ng-class="{'page-item': true, 'disabledDiv': vm.currentPage === $index + 1}"
+        ng-repeat="i in vm.qdePaginacao track by $index"
+      >
+        <a class="page-link" ng-click="vm.atualizarPaginanacao($index)"
+          >{{$index + 1}}</a
+        >
+      </li>
+      <li
+        ng-class="{'page-item': true, 'disabledDiv': vm.currentPage === vm.qdePaginacao.length}"
+      >
+        <a class="page-link" ng-click="vm.avancarPaginanacao()">Próximo</a>
+      </li>
+    </ul>
+  </nav>
+</div>

@@ -1,0 +1,10 @@
+.idea
+*.iml
+target
+*.jar
+*.aar
+*.zip
+node_modules
+/www
+coverage
+

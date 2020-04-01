@@ -1,0 +1,45 @@
+{
+    "name": "hackaton-stefanini",
+    "version": "1.0.1",
+    "description": "Projeto Hackaton Stefanini com conteúdo estático",
+    "scripts": {
+        "test": "karma start karma.conf.js"
+    },
+    "devDependencies": {
+        "angular": "^1.7.9",
+        "angular-animate": "~1.5.8",
+        "angular-mocks": "~1.6.0",
+        "angular-route": "~1.5.8",
+        "angular-typeahead": "^1.0.2",
+        "bootstrap": "^3.4.1",
+        "grunt": "^1.1.0",
+        "grunt-contrib-clean": "^1.0.0",
+        "grunt-contrib-connect": "^1.0.2",
+        "grunt-contrib-copy": "^1.0.0",
+        "grunt-contrib-cssmin": "^3.0.0",
+        "grunt-contrib-jshint": "^1.1.0",
+        "grunt-contrib-uglify": "^2.0.0",
+        "grunt-contrib-watch": "^1.0.0",
+        "grunt-htmllint": "^0.3.0",
+        "grunt-karma": "^3.0.2",
+        "grunt-strip-code": "^1.0.4",
+        "jasmine": "^3.5.0",
+        "jasmine-core": "^2.5.2",
+        "karma": "^4.4.1",
+        "karma-chrome-launcher": "^2.2.0",
+        "karma-coverage": "^1.1.2",
+        "karma-jasmine": "^1.1.2",
+        "karma-ng-html2js-preprocessor": "^1.0.0",
+        "karma-phantomjs-launcher": "^1.0.2"
+    },
+    "main": "Gruntfile.js",
+    "repository": {
+        "type": "git",
+        "url": "http://git.intranet.bb.com.br:8113/gitrepos/hackaton-stefanini-estatico.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "chrome-launcher": "^0.10.5"
+    }
+}

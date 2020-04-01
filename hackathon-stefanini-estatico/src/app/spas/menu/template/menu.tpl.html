@@ -1,0 +1,59 @@
+<style>
+  .dropdown-menu {
+    background-color: transparent !important;
+  }
+  .dropdown-item {
+    background-color: transparent !important;
+  }
+</style>
+<nav class="navbar navbar-expand-lg" style="border-top: -20px;" ng-controller="MenuController as vm">
+  <div class="navbar-header">
+    <a class="navbar-brand" ng-click="vm.chamarPagina('home')" style="font-family: 'Courier New', 'Monaco', 'monospace'; font-weight: bold; color: white; cursor: pointer;">Home</a>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false"
+          style="font-family: 'Courier New', 'Monaco', 'monospace'; font-weight: bold; color: white; cursor: pointer;">
+          Pessoa
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" ng-click="vm.chamarPagina('cadastrarPessoa')"
+            style="font-weight: bold; color: white; cursor: pointer;">Cadastrar</a>
+          <a class="dropdown-item" ng-click="vm.chamarPagina('listarPessoa')"
+            style="font-weight: bold; color: white; cursor: pointer;">Listar</a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false"
+          style="font-family: 'Courier New', 'Monaco', 'monospace'; font-weight: bold; color: white; cursor: pointer;">
+          Perfil
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" ng-click="vm.chamarPagina('EditarPerfis')"
+            style="font-weight: bold; color: white; cursor: pointer;">Cadastrar</a>
+          <a class="dropdown-item" ng-click="vm.chamarPagina('listarPerfis')"
+            style="font-weight: bold; color: white; cursor: pointer;">Listar</a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false"
+          style="font-family: 'Courier New', 'Monaco', 'monospace'; font-weight: bold; color: white; cursor: pointer;">
+          Endereco
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" ng-click="vm.chamarPagina('cadastrarEndereco')"
+            style="font-weight: bold; color: white; cursor: pointer;">Cadastrar</a>
+          <a class="dropdown-item" ng-click="vm.chamarPagina('listarEndereco')"
+            style="font-weight: bold; color: white; cursor: pointer;">Listar</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
