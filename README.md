@@ -8,7 +8,7 @@ O projeto final utiliza EJB no backend e angularJs no frontend.
 O projeto final utiliza Git Flow para manter as versões.  
 Foram criadas features, releases e tags  para o versionamento.
  
-## Banco de dados (PostreSQL)
+## Banco de dados (PostgreSQL)
 - Login: postgres
 - Senha: 1234567  
 - Porta: 8081
