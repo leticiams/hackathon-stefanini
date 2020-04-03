@@ -17,24 +17,69 @@
     <div class="container" style="overflow-y: auto; overflow-x: hidden; height: 425px">
         <form>
             <div class="mx-auto" style="width: 200px;">
-                <h5 class="modal-title">Cadastro Perfil</h5>
+                <h5 class="modal-title">Cadastrar Perfil</h5>
             </div>
             <div class="form-group">
                 <label for="nomePerfil">Nome: </label>
                 <input type="nome" class="form-control" id="nomePerfil" ng-model="vm.perfil.nome"
-                    placeholder="Digite o nome da pessoa ..." />
+                    placeholder="Digite o nome do perfil" />
             </div>
             <div class="form-group">
-                <label for="descricaoPerfil">Descricao</label>
-                <input type="text" class="form-control" id="descricaoPerfil" ng-model="vm.perfil.descricao" />
+                <label for="descricaoPerfil">Descrição:</label>
+                <input type="text" class="form-control" id="descricaoPerfil" ng-model="vm.perfil.descricao"
+                placeholder=" Digite a descrição do perfil " />
             </div>
         </form>
 
+        <div class="form-group">
+            <label for="dataHoraInclusaoPerfil" style="width: 300px;">Data Hora da Inclusão: </label>
+            <input type="text" class="form-control" id="dataHoraInclusaoPerfil" ng-model="vm.perfil.dataHoraInclusao"
+              ui-mask="9999/99/99"
+              style="width: 120px;" />
+          </div>
 
-        <button type="button" class="btn btn-primary btn-space" ng-click="vm.incluir(vm.perfil)">
-            Salvar
-        </button>
-        <button type="button" class="btn btn-danger" ng-click="vm.cancelar()">
-            Cancelar
-        </button>
-    </div>
+          <div class="form-group" ng-if="vm.isEdicao">
+            <label for="dataHoraAlteracaoPerfil" style="width: 300px;">Data Hora da Alteração: </label>
+            <input type="text" class="form-control" id="dataHoraAlteracaoPerfil" ng-model="vm.perfil.dataHoraAlteracao"
+              ui-mask="9999/99/99"
+              style="width: 120px;"
+              disabled />
+          </div>
+
+          <div
+            class="row"
+            style="float: right; padding-top: 30px; padding-right: 20px;"
+         >
+         <button
+         type="button"
+         class="btn btn-primary btn-space"
+         ng-click="vm.incluir(vm.perfil)"
+       >
+         Salvar
+       </button>
+       <button type="button" class="btn btn-danger" ng-click="vm.cancelar()">
+         Cancelar
+       </button>
+     </div>
+     <div class="modal fade" id="modalPerfil" role="dialog" data-backdrop="false">
+       <div class="modal-dialog">
+         <div class="modal-content">
+           <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">
+                 &times;
+               </button>
+           </div>
+         </div>
+       </div>
+           <div class="modal-footer">
+             <button type="button" class="btn btn-primary btn-space" data-dismiss="modal" ng-click="vm.salvarPerfil()">
+               Salvar
+             </button>
+             <button type="button" class="btn btn-danger" ng-click="vm.limparTela()">
+               Cancelar
+             </button>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>

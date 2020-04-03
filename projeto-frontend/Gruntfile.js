@@ -113,7 +113,7 @@ module.exports = function(grunt) {
                 }
             }
         }
-    });
+    })
 
     // load the tasks
     grunt.loadNpmTasks('grunt-contrib-clean');

@@ -32,7 +32,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="pessoa in vm.listaPessoasMostrar">
+        <tr ng-repeat="pessoa in vm.listaPessoasMostrar track by $index">
           <td>{{pessoa.id}}</td>
           <td>{{pessoa.nome}}</td>
           <td>{{pessoa.email}}</td>

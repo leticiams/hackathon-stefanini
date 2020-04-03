@@ -71,8 +71,8 @@ function PessoaListarController($rootScope, $scope, $location,
     vm.retrocederPaginanacao = function (index) {
         
         vm.listaPessoasMostrar = [];
-
         vm.currentPage--;
+
         var idx = vm.contador - 1;
         vm.ultimoIndex = idx + 1;
         for (var count = vm.qdePorPagina; count > 0; count--) {
@@ -103,7 +103,11 @@ function PessoaListarController($rootScope, $scope, $location,
         if (liberaExclusao)
             HackatonStefaniniService.excluir(vm.url + id).then(
                 function (response) {
-                    vm.init();
+                    if(response.mensagem) {
+                        alert(response.mensagem);
+                    } else {
+                        vm.init();
+                    }
                 }
             );
         else {

@@ -1,16 +1,20 @@
 package com.stefanini.servico;
 
-import com.stefanini.dao.PessoaDao;
-import com.stefanini.exception.NegocioException;
-import com.stefanini.model.Pessoa;
-
-import javax.ejb.*;
-import javax.inject.Inject;
-import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
+
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.inject.Inject;
+import javax.validation.Valid;
+
+import com.stefanini.dao.PessoaDao;
+import com.stefanini.exception.NegocioException;
+import com.stefanini.model.Pessoa;
 
 /**
  * 

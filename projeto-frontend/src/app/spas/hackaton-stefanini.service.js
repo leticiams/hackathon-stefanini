@@ -25,6 +25,7 @@
                 return response;
             }
             function tratarErro(error) {
+                console.log(error.data)
                 return error.data;
             }
             return service;
