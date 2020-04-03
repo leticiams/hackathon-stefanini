@@ -1,10 +1,12 @@
 package com.stefanini.dao;
 
-import com.stefanini.dao.abstracao.GenericDao;
-import com.stefanini.model.Pessoa;
+import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.TypedQuery;
-import java.util.Optional;
+
+import com.stefanini.dao.abstracao.GenericDao;
+import com.stefanini.model.Pessoa;
 
 /**
  * O Unico objetivo da Dao 
@@ -28,5 +30,10 @@ public class PessoaDao extends GenericDao<Pessoa, Long> {
 		q2.setParameter("email", email);
 		return q2.getResultStream().findFirst();
 	}
-
+	
+	public Optional<List<Pessoa>> buscarPessoaCheia(){
+		TypedQuery<Pessoa> query = entityManager.createQuery(" SELECT DISTINCT p FROM Pessoa p  LEFT JOIN FETCH p.perfils perfil  LEFT JOIN FETCH p.enderecos endereco ORDER BY p.nome", Pessoa.class);
+		return Optional.ofNullable(query.getResultList());
+	}
+	
 }
