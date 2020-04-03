@@ -15,10 +15,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * @author joaopedromilhome
@@ -29,59 +34,54 @@ import javax.validation.constraints.NotNull;
 public class Pessoa implements Serializable{
 
 	
-	
-	// Serializacao da Classe
-	
+	/**
+	 * Serializacao da Classe
+	 */
 	private static final long serialVersionUID = 1L;
-	
-	 // ID da Tabela
-	 
+	/**
+	 * ID da Tabela
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "CO_SEQ_PESSOA")
 	private Long id;
-	
-	// Nome da pessoa
-	 
+	/**
+	 * Nome da pessoa
+	 */
 	@NotNull
 	@Column(name = "NO_NOME")
 	private String nome;
 	
-	// Email da Pessoa
-
+	/**
+	 * Email da Pessoa
+	 */
 	@NotNull
 	@Column(name = "DS_EMAIL")
 	private String email;
-
-	// Data de Nascimento 
-	
+	/**
+	 * Data de Nascimento 
+	 */
 	@NotNull
 	@Column(name = "DT_NASCIMENTO")
 	private LocalDate dataNascimento; 
-	
-	// Situação da Pessoa
-	
+	/**
+	 * Situacao da Pessoa
+	 */
 	@NotNull
 	@Column(name = "ST_PESSOA")
 	private Boolean situacao;
-	
-	// caminho_imagem
-	
-	@Column(name = "DS_CAMINHO_IMAGEM")	
-	private String caminhoImagem;
-	
-	@Transient
-	private String base64Imagem;
 
-	// Mapeamento de Enderecos Unidirecional
+	/**
+	 * Mapeamento de Enderecos Unidirecional
+	 */
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name = "CO_SEQ_PESSOA",referencedColumnName = "CO_SEQ_PESSOA")
 	private Set<Endereco> enderecos = new HashSet<>();
 
-	
-	// Mapeamento de Perfis Unidirecional
-	
+	/**
+	 * Mapeamento de Perfis Unidirecional
+	 */
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(
 			name = "TB_PESSOA_PERFIL",
@@ -89,12 +89,12 @@ public class Pessoa implements Serializable{
 			inverseJoinColumns = {@JoinColumn(name = "CO_SEQ_PERFIL")}
 	)
 	private Set<Perfil> perfils = new HashSet<>();
-	
-	
-	// Método construtor da classe
-	
+	/**
+	 * Metodo construtor da classe
+	 */
 	public Pessoa() {
 	}
+
 
 	public Set<Perfil> getPerfils() {
 		return perfils;
@@ -111,13 +111,12 @@ public class Pessoa implements Serializable{
 	 * @param dataNascimento
 	 * @param situacao
 	 */
-	public Pessoa(@NotNull String nome, @NotNull String email, @NotNull LocalDate dataNascimento, @NotNull Boolean situacao, String caminhoImagem) {
+	public Pessoa(@NotNull String nome, @NotNull String email, @NotNull LocalDate dataNascimento,@NotNull Boolean situacao) {
 		super();
 		this.nome = nome;
 		this.email = email;
 		this.dataNascimento = dataNascimento;
 		this.situacao = situacao;
-		this.caminhoImagem = caminhoImagem;
 	}
 
 
@@ -171,23 +170,6 @@ public class Pessoa implements Serializable{
 	public void setSituacao(Boolean situacao) {
 		this.situacao = situacao;
 	}
-	
-	public String getCaminhoImagem() {
-		return caminhoImagem;
-	}
-
-	public void setCaminhoImagem(String caminhoImagem) {
-		this.caminhoImagem = caminhoImagem;
-	}
-
-
-	public String getBase64Imagem() {
-		return base64Imagem;
-	}
-
-	public void setBase64Imagem(String base64Imagem) {
-		this.base64Imagem = base64Imagem;
-	}
 
 	@Override
 	public int hashCode() {
@@ -217,7 +199,7 @@ public class Pessoa implements Serializable{
 	@Override
 	public String toString() {
 		return "Pessoa [id=" + id + ", nome=" + nome + ", email=" + email + ", dataNascimento=" + dataNascimento
-				+ ", situacao=" + situacao + ", caminhoImagem=" + caminhoImagem + "]";
+				+ ", situacao=" + situacao + "]";
 	}
 	
 	

@@ -4,10 +4,7 @@ import com.stefanini.dao.abstracao.GenericDao;
 import com.stefanini.model.Pessoa;
 
 import javax.persistence.TypedQuery;
-
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * O Unico objetivo da Dao 
@@ -31,9 +28,5 @@ public class PessoaDao extends GenericDao<Pessoa, Long> {
 		q2.setParameter("email", email);
 		return q2.getResultStream().findFirst();
 	}
-	
-	/**
-	 * Busca com Pessoa Cheia
-	 */
-	
+
 }
