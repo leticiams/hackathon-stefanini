@@ -43,15 +43,6 @@ function PessoaIncluirAlterarController(
         complemento: ""
     };
 
-    vm.enderecoNovo = {
-        cep: null,
-        uf: null,
-        localidade: null,
-        bairro: null,
-        logradouro: null,
-        complemento: null
-    };
-
     vm.urlCep = "http://localhost:8081/treinamento/api/enderecos/buscar/";
     vm.urlEndereco = "http://localhost:8081/treinamento/api/enderecos/";
     vm.urlPerfil = "http://localhost:8081/treinamento/api/perfis/";
@@ -108,9 +99,9 @@ function PessoaIncluirAlterarController(
         )
     }
 
-    vm.visualizaarImg = function() {
+    vm.visualizarImg = function() {
         var preview = document.querySelectorAll("img").item(0);
-        var file = document.querySelector('input[type=file').isDefaultNamespace[0];
+        var file = document.querySelector('input[type=file').files[0];
 
         var reader = new FileReader();
 
@@ -135,7 +126,13 @@ function PessoaIncluirAlterarController(
     };
 
     vm.abrirModal = function (endereco) {
-        vm.enderecoNovo = angular.copy(endereco)
+        vm.enderecoModal = vm.enderecoDefault;
+        if (endereco !== undefined)
+            vm.enderecoModal = endereco;
+
+        if (vm.pessoa.enderecos.length === 0)
+            vm.pessoa.enderecos.push(vm.enderecoModal);
+
         $("#modalEndereco").modal();
     };
 
@@ -145,6 +142,9 @@ function PessoaIncluirAlterarController(
     };
 
     vm.incluir = function () {
+
+        vm.pessoa.imagem = document.getElementById("ImagemPessoa").getAttribute("src");
+        document.getElementById("ImagemPessoa").src = vm.pessoa.imagem;
 
         var objetoDados = angular.copy(vm.pessoa);
         objetoDados.dataNascimento = vm.formataDataJava(vm.pessoa.dataNascimento);

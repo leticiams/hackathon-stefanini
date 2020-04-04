@@ -1,3 +1,4 @@
+<meta charset="UTF-8">
 <style>
   .btn-space {
     margin-right: 10px;
@@ -18,6 +19,17 @@
     <form>
       <div class="mx-auto" style="width: 200px;">
         <h5 class="modal-title">{{vm.tituloTela}}</h5>
+      </div>
+      <div class="form-group">
+        <img alt="Foto" id="imagemPessoa" src="{{vm.pessoa.imagem.split(':')[0] == 'http'? vm.pessoa.imagem : '../../../app/imagens/imagemdefault.jpg' }}" 
+        style="width:100px; height:100px;" >
+        <input 
+        type="file" 
+        id="file" 
+        onchange= "vm.visualizarImg()"
+        ng-model="vm.pessoa.imagem"
+        value="Exibir Alert"
+        />
       </div>
       <div class="form-group">
         <label for="nomePessoa">Nome: </label>
@@ -72,7 +84,7 @@
               <th scope="col">Excluir</th>
             </tr>
           </thead>
-          <tbody ng-repeat="endereco in vm.pessoa.enderecos track by $index">
+          <tbody ng-repeat="endereco in vm.pessoa.enderecos">
             <tr>
               <td>{{endereco.localidade}}</td>
               <td>{{endereco.uf}}</td>
@@ -121,43 +133,49 @@
             <div class="form-group">
               <label for="cep">CEP: </label>
               <input type="text" class="form-control" id="cep"
-                ng-model="vm.enderecoNovo.cep"
+                ng-model="vm.enderecoModal.cep"
+                max-length="8"
+                ng-blur="vm.buscaCep()"
                 placeholder="Digite o CEP"
               />
             </div>
             <div class="form-group">
               <label for="localidade">Cidade: </label>
               <input type="text" class="form-control" id="localidade"
-                ng-model="vm.enderecoNovo.localidade"
+                ng-model="vm.enderecoModal.localidade"
                 placeholder="Digite a cidade"
+                disabled
               />
             </div>
             <div class="form-group">
               <label for="uf">UF: </label>
               <input type="text" class="form-control" id="uf"
-                ng-model="vm.enderecoNovo.uf"
+                ng-model="vm.enderecoModal.uf"
                 placeholder="Digite a UF"
+                disabled
               />
             </div>  
             <div class="form-group">
               <label for="logradouro">Logradouro: </label>
               <input type="text" class="form-control" id="logradouro"
-                ng-model="vm.enderecoNovo.logradouro"
+                ng-model="vm.enderecoModal.logradouro"
                 placeholder="Digite o logradouro"
-              />
-            </div>
-            <div class="form-group">
-              <label for="complemento">Complemento: </label>
-              <input type="text" class="form-control" id="complemento"
-                ng-model="vm.enderecoNovo.complemento"
-                placeholder="Digite o complemento"
+                disabled
               />
             </div>
             <div class="form-group">
               <label for="bairro">Bairro: </label>
               <input type="text" class="form-control" id="bairro"
-                ng-model="vm.enderecoNovo.bairro"
+                ng-model="vm.enderecoModal.bairro"
                 placeholder="Digite o bairro"
+                disabled
+              />
+            </div>
+            <div class="form-group">
+              <label for="complemento">Complemento: </label>
+              <input type="text" class="form-control" id="complemento"
+                ng-model="vm.enderecoModal.complemento"
+                placeholder="Digite o complemento"
               />
             </div>
           </div>
