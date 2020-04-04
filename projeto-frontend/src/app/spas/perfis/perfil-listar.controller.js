@@ -8,7 +8,7 @@ PerfilListarController.$inject = ["$rootScope", "$scope", "$location",
         vm = this;
 
 
-        vm.url = "http://localhost:8081/treinamento/api/perfils/";
+        vm.url = "http://localhost:8081/treinamento/api/perfis/";
 
         vm.init = function () {
             HackatonStefaniniService.listar(vm.url).then(

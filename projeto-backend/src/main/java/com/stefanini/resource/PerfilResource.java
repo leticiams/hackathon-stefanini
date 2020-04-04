@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-@Path("perfils")
+@Path("perfis")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PerfilResource {

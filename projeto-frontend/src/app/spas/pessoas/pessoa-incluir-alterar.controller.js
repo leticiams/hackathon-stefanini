@@ -52,7 +52,7 @@ function PessoaIncluirAlterarController(
     };
 
     vm.urlEndereco = "http://localhost:8081/treinamento/api/enderecos/";
-    vm.urlPerfil = "http://localhost:8081/treinamento/api/perfils/";
+    vm.urlPerfil = "http://localhost:8081/treinamento/api/perfis/";
     vm.urlPessoa = "http://localhost:8081/treinamento/api/pessoas/";
 
     /**METODOS DE INICIALIZACAO */
@@ -239,23 +239,6 @@ function PessoaIncluirAlterarController(
         );
         return deferred.promise;
     }
-
-    /**METODOS AUXILIARES */
-    vm.formataDataJava = function (data) {
-        var dia = data.slice(0, 2);
-        var mes = data.slice(2, 4);
-        var ano = data.slice(4, 8);
-
-        return ano + "-" + mes + "-" + dia;
-    };
-
-    vm.formataDataTela = function (data) {
-        var ano = data.slice(0, 4);
-        var mes = data.slice(5, 7);
-        var dia = data.slice(8, 10);
-
-        return dia + mes + ano;
-    };
 
     vm.listaUF = [
         { "id": "RO", "desc": "RO" },

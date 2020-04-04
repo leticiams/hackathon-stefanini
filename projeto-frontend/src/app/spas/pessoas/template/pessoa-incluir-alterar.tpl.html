@@ -32,16 +32,16 @@
       <div class="row">
         <div class="form-group">
           <label for="nascimentoPessoa" style="width: 250px;">Data de nascimento</label>
-          <input type="text" class="form-control" id="nascimentoPessoa" ng-model="vm.pessoa.dataNascimento"
-            ui-mask="99/99/9999" style="width: 120px;" />
+          <input type="date" class="form-control" id="nascimentoPessoa" ng-model="vm.pessoa.dataNascimento"
+           style="width: 175px;" />
         </div>
         <div class="form-group">
           <label for="nomePerfil">Perfil</label>
           <div>
             <select style="width: 250px; height: 38px;"
               ng-class="{'disabledDiv': vm.listaPerfil.length === 0, 'custom-select custom-select-sm': true}"
-              ng-options="item as item.nome for item in vm.listaPerfil track by item.id" ng-model="vm.perfil">
-              <option value="">-- PERFIL --</option>
+              ng-options="item as item.nome for item in vm.listaPerfil" ng-model="vm.perfil">
+              <option value=""> PERFIL </option>
             </select>
           </div>
         </div>

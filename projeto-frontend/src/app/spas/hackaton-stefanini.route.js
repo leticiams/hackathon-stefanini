@@ -32,7 +32,7 @@
                 templateUrl: 'app/spas/perfis/template/perfil-incluir-alterar.tpl.html',
                 controller: 'PerfilIncluirAlterarController as vm'
             })
-            .when('cadastrarPerfis', {
+            .when('/cadastrarPerfis', {
                 templateUrl: 'app/spas/perfis/template/perfil-incluir-alterar.tpl.html',
                 controller: 'PerfilIncluirAlterarController as vm'
             })

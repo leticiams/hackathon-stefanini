@@ -47,6 +47,7 @@ public class Perfil implements Serializable {
 
 
     public Perfil() {
+    	this.dataHoraInclusao = LocalDateTime.now();
     }
 
     public Perfil(Long id) {
