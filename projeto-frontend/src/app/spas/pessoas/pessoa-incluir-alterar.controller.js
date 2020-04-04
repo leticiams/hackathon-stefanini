@@ -28,12 +28,13 @@ function PessoaIncluirAlterarController(
         dataNascimento: null,
         enderecos: [],
         perfils: [],
-        situacao: false
+        situacao: false,
+        imagem: null
     };
 
     vm.enderecoDefault = {
         id: null,
-        idPessoa: null,
+        idPessoa: "",
         cep: "",
         uf: "",
         localidade: "",
@@ -51,9 +52,14 @@ function PessoaIncluirAlterarController(
         complemento: null
     };
 
+    vm.urlCep = "http://localhost:8081/treinamento/api/enderecos/buscar/";
     vm.urlEndereco = "http://localhost:8081/treinamento/api/enderecos/";
     vm.urlPerfil = "http://localhost:8081/treinamento/api/perfis/";
     vm.urlPessoa = "http://localhost:8081/treinamento/api/pessoas/";
+
+    vm.teste = function () {
+        console.log(vm.pessoa);
+    }
 
     /**METODOS DE INICIALIZACAO */
     vm.init = function () {
@@ -89,6 +95,37 @@ function PessoaIncluirAlterarController(
     };
 
     /**METODOS DE TELA */
+
+    vm.buscaCep = function() {
+        HackatonStefaniniService.listar(vm.urlCep + vm.enderecoDefault.cep).then(
+            function(response){
+                vm.enderecoDefault.cidade = response.data.cidade;
+                vm.enderecoDefault.uf = response.data.uf;
+                vm.enderecoDefault.localidade = response.data.localidade;
+                vm.enderecoDefault.bairro = response.data.bairro;
+                vm.enderecoDefault.logradouro = response.data.logradouro;
+            }
+        )
+    }
+
+    vm.visualizaarImg = function() {
+        var preview = document.querySelectorAll("img").item(0);
+        var file = document.querySelector('input[type=file').isDefaultNamespace[0];
+
+        var reader = new FileReader();
+
+        reader.onloadend = function() {
+            preview.src = reader.result;
+        };
+        if(file) {
+            aux = true;
+            reader.readAsDataURL(file);
+        }
+        else {
+            preview.src = "";
+        }
+    }
+
     vm.cancelar = function () {
         vm.retornarTelaListagem();
     };

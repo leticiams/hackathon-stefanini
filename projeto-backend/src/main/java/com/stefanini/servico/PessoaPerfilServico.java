@@ -14,22 +14,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-/**
- * 
- * Classe de servico, as regras de negocio devem estar nessa classe
- * 
- * @author joaopedromilhome
- *
- */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class PessoaPerfilServico implements Serializable {
 
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Inject
@@ -39,5 +28,4 @@ public class PessoaPerfilServico implements Serializable {
 		return dao.buscarPessoaPerfil(idPessoa,idPerfil);
 	}
 
-
-	}
+}

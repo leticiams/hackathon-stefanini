@@ -7,7 +7,6 @@ import java.io.Serializable;
 @Table(name = "tb_pessoa_perfil")
 public class PessoaPerfil implements Serializable {
 
-
     @Id
     @Column(name = "co_seq_pessoal_perfil")
     private Long id;
@@ -25,7 +24,7 @@ public class PessoaPerfil implements Serializable {
     private Pessoa pessoa;
 
     public PessoaPerfil() {
-		// TODO Auto-generated constructor stub
+
 	}
 
     public PessoaPerfil(Perfil perfil, Pessoa pessoa) {

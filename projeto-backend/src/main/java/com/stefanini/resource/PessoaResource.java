@@ -22,22 +22,12 @@ public class PessoaResource {
 
 	private static Logger log = Logger.getLogger(PessoaResource.class.getName());
 
-	/**
-	 * Classe de servico da Pessoa
-	 */
 	@Inject
 	private PessoaServico pessoaServico;
-	/**
-	 *
-	 */
+
 	@Context
 	private UriInfo uriInfo;
 
-
-	/**
-	 *
-	 * @return
-	 */
 	@GET
 	public Response obterPessoas() {
 		log.info("Obtendo lista de pessoas");
@@ -47,11 +37,13 @@ public class PessoaResource {
 
 	}
 
-	/**
-	 *
-	 * @param pessoa
-	 * @return
-	 */
+	@GET
+	@Path("imagem/{localImagem}")
+	@Produces("image/jpg")
+	public Response obterImagem(@PathParam("localImagem") String localImagem) {
+		return Response.ok(pessoaServico.urlImg(localImagem)).build();
+	}
+
 	@POST
 	public Response adicionarPessoa(@Valid Pessoa pessoa) {
 		if(pessoaServico.validarPessoa(pessoa)){
@@ -60,12 +52,6 @@ public class PessoaResource {
 		return Response.status(Status.METHOD_NOT_ALLOWED).entity(new ErroDto("email","email já existe", pessoa.getEmail())).build();
 	}
 
-
-	/**
-	 *
-	 * @param pessoa
-	 * @return
-	 */
 	@PUT
 	public Response atualizarPessoa(@Valid Pessoa pessoa) {
 		if(pessoaServico.validarPessoa(pessoa)){
@@ -74,12 +60,6 @@ public class PessoaResource {
 		return Response.status(Status.METHOD_NOT_ALLOWED).entity(new ErroDto("email","email já existe", pessoa.getEmail())).build();
 	}
 
-
-	/**
-	 *
-	 * @param id
-	 * @return
-	 */
 	@DELETE
 	@Path("{id}")
 	public Response deletarPessoa(@PathParam("id") Long id) {
@@ -95,12 +75,6 @@ public class PessoaResource {
 		}
 	}
 
-
-	/**
-	 *
-	 * @param id
-	 * @return
-	 */
 	@GET
 	@Path("{id}")
 	public Response obterPessoa(@PathParam("id") Long id) {

@@ -8,22 +8,12 @@ import javax.persistence.TypedQuery;
 import com.stefanini.dao.abstracao.GenericDao;
 import com.stefanini.model.Pessoa;
 
-/**
- * O Unico objetivo da Dao 
- * @author joaopedromilhome
- *
- */
 public class PessoaDao extends GenericDao<Pessoa, Long> {
 
 	public PessoaDao() {
 		super(Pessoa.class);
 	}
 
-	/**
-	 * Efetuando busca de Pessoa por email
-	 * @param email
-	 * @return
-	 */
 	public Optional<Pessoa> buscarPessoaPorEmail(String email){
 		TypedQuery<Pessoa> q2 =
 				entityManager.createQuery(" select p from Pessoa p where p.email=:email", Pessoa.class);
@@ -35,5 +25,12 @@ public class PessoaDao extends GenericDao<Pessoa, Long> {
 		TypedQuery<Pessoa> query = entityManager.createQuery(" SELECT DISTINCT p FROM Pessoa p  LEFT JOIN FETCH p.perfils perfil  LEFT JOIN FETCH p.enderecos endereco ORDER BY p.nome", Pessoa.class);
 		return Optional.ofNullable(query.getResultList());
 	}
-	
+
+	@Override
+	public Optional<Pessoa> encontrar(Long id) {
+		TypedQuery<Pessoa> q = entityManager.createQuery(" SELECT DISTINCT p FROM Pessoa p LEFT JOIN FETCH p.perfils perfil  LEFT JOIN FETCH p.enderecos endereco WHERE p.id = :id", Pessoa.class);
+		q.setParameter("id", id);
+		return q.getResultStream().findFirst();
+	}
+
 }

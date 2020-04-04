@@ -40,6 +40,14 @@
                 templateUrl: 'app/spas/perfis/template/perfil-incluir-alterar.tpl.html',
                 controller: 'PerfilIncluirAlterarController as vm'
             })
+            .when('/listarEnderecos', {
+                templateUrl: 'app/spas/enderecos/template/endereco-listar.tpl.html',
+                controller: 'EnderecoListarController as vm'
+            })
+            .when('/cadastrarEnderecos', {
+                templateUrl: 'app/spas/enderecos/template/endereco-incluir.alterar.tpl.html',
+                controller: 'EnderecoIncluirAlterarController as vm'
+            })
             
             .otherwise({
                 templateUrl: 'index_ERROR.html'

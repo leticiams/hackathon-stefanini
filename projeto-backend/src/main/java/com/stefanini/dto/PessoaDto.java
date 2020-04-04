@@ -9,9 +9,7 @@ import com.stefanini.model.Endereco;
 import com.stefanini.model.Perfil;
 
 public class PessoaDto implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private Long id;

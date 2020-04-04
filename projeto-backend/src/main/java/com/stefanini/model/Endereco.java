@@ -7,15 +7,8 @@ import java.io.Serializable;
 @Table(name = "tb_endereco")
 public class Endereco implements Serializable {
 
-
-
-    /**
-     * Serializacao da Classe
-     */
     private static final long serialVersionUID = 1L;
-    /**
-     * ID da Tabela
-     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CO_SEQ_ENDERECO")
@@ -38,19 +31,12 @@ public class Endereco implements Serializable {
 
     @Column(name = "DS_LOGRADOURO")
     private String logradouro;
-    /**
-     * Unidirecional
-     * Somente Pessoa acessa endereco
-     */
+
     @Column(name = "CO_SEQ_PESSOA")
     private Long idPessoa;
 
-//    @ManyToOne
-//    @JoinColumn(name = "co_seq_pessoa", referencedColumnName = "co_seq_pessoa", nullable = false)
-//    private Pessoa pessoa;
-
-
     public Endereco() {
+
     }
 
     public Long getId() {

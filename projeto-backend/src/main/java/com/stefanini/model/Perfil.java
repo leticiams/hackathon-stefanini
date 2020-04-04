@@ -8,43 +8,26 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "TB_PERFIL")
 public class Perfil implements Serializable {
-    /**
-     *
-     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "co_seq_perfil")
     private Long id;
-    /**
-     *
-     */
+
     @NotNull
     @Column(name = "no_perfil")
     private String nome;
-    /**
-     *
-     */
+
     @NotNull
     @Column(name = "ds_perfil")
     private String descricao;
-    /**
-     *
-     */
+
     @Column(name = "dt_hora_inclusao")
     @NotNull
     private LocalDateTime dataHoraInclusao;
-    /**
-     *
-     */
+
     @Column(name = "dt_hora_alteracao")
     private LocalDateTime dataHoraAlteracao;
-
-//    /**
-//     * Mapeamento de Pessoa
-//     */
-//    @ManyToMany(mappedBy = "perfils")
-//    private Set<Pessoa> pessoas;
-
 
     public Perfil() {
     	this.dataHoraInclusao = LocalDateTime.now();
@@ -59,16 +42,7 @@ public class Perfil implements Serializable {
         this.descricao = descricao;
         this.dataHoraInclusao = dataHoraInclusao;
         this.dataHoraAlteracao = dataHoraAlteracao;
-//        this.pessoas = pessoas;
     }
-
-//    public Set<Pessoa> getPessoas() {
-//        return pessoas;
-//    }
-//
-//    public void setPessoas(Set<Pessoa> pessoas) {
-//        this.pessoas = pessoas;
-//    }
 
     public Long getId() {
         return id;
