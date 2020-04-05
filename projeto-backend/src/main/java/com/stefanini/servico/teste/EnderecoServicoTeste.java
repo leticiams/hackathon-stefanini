@@ -1,54 +1,124 @@
 package com.stefanini.servico.teste;
 
-import com.stefanini.dao.EnderecoDao;
-import com.stefanini.model.Endereco;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import javax.ejb.*;
-import javax.inject.Inject;
-import javax.validation.Valid;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * 
- * Classe de servico, as regras de negocio devem estar nessa classe
- * @author joaopedromilhome
- *
- */
-@Stateless
-@TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class EnderecoServicoTeste implements Serializable {
-	
-	@Inject
-	private EnderecoDao dao;
+import javax.persistence.EntityManager;
+import javax.validation.Valid;
 
+import com.stefanini.servico.EnderecoServico;
+import org.junit.Before;
+import org.junit.Test;
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+import com.stefanini.dao.EnderecoDao;
+import com.stefanini.exception.NegocioException;
+import com.stefanini.model.Endereco;
+import com.stefanini.model.Perfil;
+import com.stefanini.model.Pessoa;
 
-	public Endereco salvar(@Valid Endereco entity) {
-		return dao.salvar(entity);
-	}
+import mockit.Expectations;
+import mockit.Injectable;
+import mockit.Mocked;
+import mockit.Tested;
+import mockit.Verifications;
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+public class EnderecoServicoTeste {
+    @Injectable
+    EntityManager entityManager;
 
-	public Endereco atualizar(@Valid Endereco entity) {
-		return dao.atualizar(entity);
-	}
+    @Tested
+    EnderecoServico enderecoServico;
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    @Injectable
+    @Mocked
+    EnderecoDao enderecoDao;
 
-	public void remover(Long id) {
-	dao.remover(id);
-	}
+    @Tested
+    Endereco endereco;
 
+    private Long id;
 
-	public Optional<List<Endereco>> getList() {
-		return dao.getList();
-	}
+    @Before
+    public void setUp() {
+        id = 1L;
+        endereco = new Endereco();
+        endereco.setId(id);
+    }
 
-	public Optional<Endereco> encontrar(Long id) {
-		return dao.encontrar(id);
-	}
+    @Test
+    public void testeSalvarEndereco() {
+        new Expectations() {
+            {
+                enderecoServico.salvar((@Valid Endereco) any);
+                result = endereco;
+            }
+        };
+
+        Endereco retornoEndereco = enderecoServico.salvar(endereco);
+        assertEquals(retornoEndereco.getId(), endereco.getId());
+
+    }
+
+    @Test
+    public void testeAtualizarEndereco() {
+        new Expectations() {
+            {
+                enderecoServico.atualizar((@Valid Endereco) any);
+                result = endereco;
+            }
+        };
+
+        Endereco retornoEndereco = enderecoServico.atualizar(endereco);
+        assertEquals(retornoEndereco.getId(), endereco.getId());
+    }
+
+    @Test
+    public void testeRemoverEndereco() throws NegocioException {
+        new Expectations() {
+            {
+                enderecoServico.remover(id);
+
+            }
+        };
+
+        enderecoServico.remover(id);
+
+        new Verifications() {
+            {
+                enderecoServico.remover(id);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void testeEncontrarEndereco() {
+        new Expectations() {
+            {
+                enderecoServico.encontrar(anyLong);
+                result = Optional.of(endereco);
+            }
+        };
+
+        Optional<Endereco> encontrar = enderecoServico.encontrar(1L);
+        assertTrue(encontrar.isPresent());
+        assertEquals(id, encontrar.get().getId());
+    }
+
+    @Test
+    public void testeGetListEndereco() {
+        new Expectations() {
+            {
+                enderecoServico.getList();
+                result = Optional.of(endereco);
+            }
+        };
+
+        Optional<List<Endereco>> getListEndereco = enderecoServico.getList();
+
+    }
+
 }

@@ -1,11 +1,8 @@
 package com.stefanini.servico;
 
 import com.stefanini.dao.PerfilDao;
-import com.stefanini.dao.PerfilDao;
 import com.stefanini.exception.NegocioException;
 import com.stefanini.model.Perfil;
-import com.stefanini.model.Perfil;
-import com.stefanini.model.Pessoa;
 
 import javax.ejb.*;
 import javax.inject.Inject;

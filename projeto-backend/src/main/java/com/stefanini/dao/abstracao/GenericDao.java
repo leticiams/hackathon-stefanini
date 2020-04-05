@@ -29,6 +29,10 @@ public abstract class GenericDao<T, I extends Serializable> implements IGenericD
 		this.classe = classe;
 	}
 
+	public void daoFlush() {
+		entityManager.flush();
+	}
+
 	public T salvar(@Valid T entity) {
 		entityManager.persist(entity);
 		return entity;

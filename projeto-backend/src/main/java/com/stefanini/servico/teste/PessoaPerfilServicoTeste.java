@@ -1,43 +1,40 @@
 package com.stefanini.servico.teste;
 
-import com.stefanini.dao.PerfilDao;
-import com.stefanini.dao.PessoaPerfilDao;
-import com.stefanini.model.Perfil;
-import com.stefanini.model.PessoaPerfil;
-import com.stefanini.resource.PessoaResource;
-
-import javax.ejb.*;
-import javax.inject.Inject;
-import javax.validation.Valid;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
-/**
- * 
- * Classe de servico, as regras de negocio devem estar nessa classe
- * 
- * @author joaopedromilhome
- *
- */
-@Stateless
-@TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class PessoaPerfilServicoTeste implements Serializable {
+import javax.persistence.EntityManager;
 
+import org.junit.Assert;
+import org.junit.Test;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+import com.stefanini.dao.PessoaPerfilDao;
+import com.stefanini.model.PessoaPerfil;
+import com.stefanini.servico.PessoaPerfilServico;
 
-	@Inject
-	private PessoaPerfilDao dao;
+import mockit.Injectable;
+import mockit.Mocked;
+import mockit.Tested;
 
-	public Stream<PessoaPerfil> buscarPessoaPerfil(Long idPessoa, Long idPerfil) {
-		return dao.buscarPessoaPerfil(idPessoa,idPerfil);
-	}
+public class PessoaPerfilServicoTeste {
+    @Injectable
+    EntityManager em;
 
+    @Tested
+    PessoaPerfilServico pessoaPerfilServico;
 
-	}
+    @Injectable
+    @Mocked
+    PessoaPerfilDao pessoaPerfilDao;
+
+    @Test
+    public void testePessoaPerfilServico() {
+        Long idPessoa = 1L;
+        Long idPerfil = 2L;
+
+        Stream<PessoaPerfil> stream = pessoaPerfilServico.buscarPessoaPerfil(idPessoa, idPerfil);
+
+        Assert.assertEquals(pessoaPerfilServico.buscarPessoaPerfil(idPessoa, idPerfil), stream);
+
+    }
+
+}

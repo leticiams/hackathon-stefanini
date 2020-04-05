@@ -29,6 +29,7 @@ public class PerfilResource {
     @Context
     private UriInfo uriInfo;
 
+    @GET
     public Response obterPerfils() {
         log.info("Obtendo lista de perfils");
         MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();

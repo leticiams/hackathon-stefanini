@@ -19,9 +19,14 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 
 import com.stefanini.dao.PessoaDao;
+import com.stefanini.dao.PessoaPerfilDao;
 import com.stefanini.exception.NegocioException;
 import com.stefanini.model.Endereco;
+import com.stefanini.model.Perfil;
 import com.stefanini.model.Pessoa;
+import com.stefanini.model.PessoaPerfil;
+
+import static java.util.Objects.nonNull;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
@@ -31,7 +36,10 @@ public class PessoaServico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private PessoaDao dao;
+	private PessoaDao pessoaDao;
+
+	@Inject
+	private PessoaPerfilDao pessoaPerfilDao;
 
 	@Inject
 	private PessoaPerfilServico pessoaPerfilServico;
@@ -41,60 +49,56 @@ public class PessoaServico implements Serializable {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Pessoa salvar(@Valid Pessoa pessoa) {
-
-		List<Endereco> enderecos = new ArrayList<>();
-
-		for (Endereco enderecoDaPessoa : pessoa.getEnderecos()) {
-			enderecos.add(enderecoDaPessoa);
-		}
+		List<Endereco> enderecos = new ArrayList<>(pessoa.getEnderecos());
+		List<Perfil> perfis = new ArrayList<>(pessoa.getPerfils());
 
 		pessoa.getEnderecos().clear();
+		pessoa.getPerfils().clear();
 
-		if(pessoa.getImagem() != null) {
-			pessoa.setImagem(decodeToImage(pessoa.getImagem())); ;
-		}
+		if(nonNull(pessoa.getImagem()))
+			pessoa.setImagem(decodeToImage(pessoa.getImagem()));
 
-		Pessoa pessoaSalva = dao.salvar(pessoa);
+		Pessoa pessoaSalva = pessoaDao.salvar(pessoa);
+		pessoaDao.daoFlush();
+
+		perfis.forEach(perfil -> {
+			pessoaPerfilDao.salvar(new PessoaPerfil(perfil, pessoaSalva));
+		});
 
 		for (Endereco enderecoSalvo : enderecos) {
 			enderecoSalvo.setIdPessoa(pessoaSalva.getId());
 			enderecoServico.salvar(enderecoSalvo);
 		}
+
 		return pessoaSalva;
 	}
 
 	public Boolean validarPessoa(@Valid Pessoa pessoa){
-		if(pessoa.getId() != null){
-			Optional<Pessoa> encontrar = dao.encontrar(pessoa.getId());
-			if(encontrar.get().getEmail().equals(pessoa.getEmail())){
-				return Boolean.TRUE;
-			}
-		}
-		Optional<Pessoa> pessoa1 = dao.buscarPessoaPorEmail(pessoa.getEmail());
-		return pessoa1.isEmpty();
+		Optional<Pessoa> pessoaValidaEmail = pessoaDao.buscarPessoaPorEmail(pessoa.getEmail());
+		return pessoaValidaEmail.isPresent();
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Pessoa atualizar(@Valid Pessoa pessoa) {
 		pessoa.setImagem(decodeToImage(pessoa.getImagem())); ;
-		return dao.atualizar(pessoa);
+		return pessoaDao.atualizar(pessoa);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void remover(@Valid Long id) throws NegocioException {
 		if(pessoaPerfilServico.buscarPessoaPerfil(id,null).count() == 0){
-			dao.remover(id);
+			pessoaDao.remover(id);
 			return;
 		}
 		throw new NegocioException("Não foi possível remover a pessoa");
 	}
 
 	public Optional<List<Pessoa>> getList() {
-		return dao.getList();
+		return pessoaDao.getList();
 	}
 
 	public Optional<List<Pessoa>> buscarPessoaCheia() {
-		return dao.buscarPessoaCheia();
+		return pessoaDao.buscarPessoaCheia();
 	}
 
 	public String decodeToImage(String imagem ) {
@@ -136,7 +140,7 @@ public class PessoaServico implements Serializable {
 	public Optional<Pessoa> encontrar(Long id) {
 
 
-		Optional<Pessoa> pessoa = dao.encontrar(id);
+		Optional<Pessoa> pessoa = pessoaDao.encontrar(id);
 
 		if (pessoa.get().getImagem() != null){
 
@@ -149,6 +153,4 @@ public class PessoaServico implements Serializable {
 		}
 		return pessoa;
 	}
-
-
 }

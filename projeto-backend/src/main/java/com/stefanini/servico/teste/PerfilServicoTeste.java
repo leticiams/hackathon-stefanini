@@ -1,93 +1,148 @@
 package com.stefanini.servico.teste;
 
-import com.stefanini.dao.PerfilDao;
-import com.stefanini.dao.PerfilDao;
-import com.stefanini.exception.NegocioException;
-import com.stefanini.model.Perfil;
-import com.stefanini.model.Perfil;
-import com.stefanini.model.Pessoa;
 
-import javax.ejb.*;
-import javax.inject.Inject;
-import javax.validation.Valid;
-import java.io.Serializable;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * 
- * Classe de servico, as regras de negocio devem estar nessa classe
- * 
- * @author joaopedromilhome
- *
- */
-@Stateless
-@TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class PerfilServicoTeste implements Serializable {
+import javax.persistence.EntityManager;
+import javax.validation.Valid;
 
+import com.stefanini.servico.PerfilServico;
+import com.stefanini.servico.PessoaPerfilServico;
+import org.junit.Before;
+import org.junit.Test;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+import com.stefanini.dao.PerfilDao;
+import com.stefanini.dao.PessoaPerfilDao;
+import com.stefanini.exception.NegocioException;
+import com.stefanini.model.Endereco;
+import com.stefanini.model.Perfil;
 
-	@Inject
-	private PerfilDao dao;
+import mockit.Expectations;
+import mockit.Injectable;
+import mockit.Mocked;
+import mockit.Tested;
+import mockit.Verifications;
 
-	@Inject
-	private PessoaPerfilServicoTeste pessoaPerfilServico;
+public class PerfilServicoTeste {
+    @Injectable
+    EntityManager em;
 
-	/**
-	 * Salvar os dados de uma Perfil
-	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public Perfil salvar(@Valid Perfil perfil) {
-		return dao.salvar(perfil);
-	}
+    @Tested
+    Perfil perfil;
 
+    @Tested
+    PerfilServico perfilServico;
 
-	/**
-	 * Validando se existe pessoa com email
-	 */
-	public Boolean validarPerfil(@Valid Perfil perfil){
-		Optional<Perfil> perfil1 = dao.buscarPessoaPorNome(perfil.getNome());
-		return perfil1.isEmpty();
-	}
+    @Injectable
+    PessoaPerfilServico pessoaPerfilServico;
 
-	/**
-	 * Atualizar o dados de uma perfil
-	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public Perfil atualizar(@Valid Perfil entity) {
-		return dao.atualizar(entity);
-	}
+    @Injectable
+    @Mocked
+    PerfilDao perfilDao;
 
-	/**
-	 * Remover uma perfil pelo id
-	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public void remover(@Valid Long id) throws NegocioException {
-		if(pessoaPerfilServico.buscarPessoaPerfil(null,id).count() == 0){
-			dao.remover(id);
-			return;
-		}
-		throw new NegocioException("Não foi possivel remover o perfil");
-	}
+    private Long id;
+    private LocalDateTime dataHoraInclusao;
+    private LocalDateTime dataHoraAlteracao;
 
-	/**
-	 * Buscar uma lista de Perfil
-	 */
-	public Optional<List<Perfil>> getList() {
-		return dao.getList();
-	}
+    @Before
+    public void setUp() {
+        id = 1L;
+        perfil = new Perfil();
+        perfil.setId(id);
+        perfil.setNome("nome");
+        perfil.setDataHoraInclusao(dataHoraInclusao);
+        perfil.setDataHoraAlteracao(dataHoraAlteracao);
+    }
 
-	/**
-	 * Buscar uma Perfil pelo ID
-	 */
-//	@Override
-	public Optional<Perfil> encontrar(Long id) {
-		return dao.encontrar(id);
-	}
+    @Test
+    public void testeSalvarPerfil() {
+        new Expectations() {
+            {
+                perfilServico.salvar((@Valid Perfil) any);
+                result = perfil;
+            }
+        };
 
+        Perfil retornoPerfil = perfilServico.salvar(perfil);
+        assertEquals(retornoPerfil.getId(), perfil.getId());
+    }
+
+    @Test
+    public void testeValidarPerfil() {
+        new Expectations() {
+            {
+                perfilServico.validarPerfil(perfil);
+                result = false;
+            }
+        };
+
+        Boolean retorno = perfilServico.validarPerfil(perfil);
+        assertFalse(retorno);
+    }
+
+    @Test
+    public void testeAtualizarPerfil() {
+        new Expectations() {
+            {
+                perfilServico.atualizar((@Valid Perfil) any);
+                result = perfil;
+            }
+        };
+
+        Perfil retornoPerfil = perfilServico.atualizar(perfil);
+        assertEquals(retornoPerfil, perfil);
+        assertEquals(retornoPerfil.getDataHoraAlteracao(), dataHoraAlteracao);
+
+    }
+
+    @Test
+    public void testeRemoverPerfil() throws NegocioException {
+        new Expectations() {
+            {
+                perfilServico.remover(id);
+            }
+        };
+
+        pessoaPerfilServico.buscarPessoaPerfil(null, id);
+        perfilDao.remover(id);
+
+        new Verifications() {
+            {
+                perfilServico.remover(id);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void testeGetListPerfil() {
+        new Expectations() {
+            {
+                perfilServico.getList();
+                result = Optional.of(perfil);
+            }
+        };
+
+        Optional<List<Perfil>> getListPerfil = perfilServico.getList();
+
+    }
+
+    @Test
+    public void testeEncontrarPerfil() {
+        new Expectations() {
+            {
+                perfilServico.encontrar(0L);
+                result = perfil;
+            }
+        };
+
+        Optional<Perfil> encontrar = perfilServico.encontrar(id);
+        assertEquals(encontrar.get(), perfil);
+
+    }
 }

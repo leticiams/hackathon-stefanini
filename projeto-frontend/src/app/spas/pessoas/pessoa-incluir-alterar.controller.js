@@ -99,24 +99,6 @@ function PessoaIncluirAlterarController(
         )
     }
 
-    vm.visualizarImg = function() {
-        var preview = document.querySelectorAll("img").item(0);
-        var file = document.querySelector('input[type=file').files[0];
-
-        var reader = new FileReader();
-
-        reader.onloadend = function() {
-            preview.src = reader.result;
-        };
-        if(file) {
-            aux = true;
-            reader.readAsDataURL(file);
-        }
-        else {
-            preview.src = "";
-        }
-    }
-
     vm.cancelar = function () {
         vm.retornarTelaListagem();
     };
@@ -143,11 +125,11 @@ function PessoaIncluirAlterarController(
 
     vm.incluir = function () {
 
-        vm.pessoa.imagem = document.getElementById("ImagemPessoa").getAttribute("src");
-        document.getElementById("ImagemPessoa").src = vm.pessoa.imagem;
-
         var objetoDados = angular.copy(vm.pessoa);
-        objetoDados.dataNascimento = vm.formataDataJava(vm.pessoa.dataNascimento);
+        //objetoDados.dataNascimento = vm.formataDataJava(vm.pessoa.dataNascimento);
+
+        vm.pessoa.imagem = document.getElementById("imagemPessoa").getAttribute("src");
+        document.getElementById("imagemPessoa").src=vm.pessoa.imagem;
 
         var listaEndereco = [];
         angular.forEach(objetoDados.enderecos, function (value, key) {
@@ -277,6 +259,22 @@ function PessoaIncluirAlterarController(
         return deferred.promise;
     }
 
+    vm.visualizarImg = function() {
+        var preview = document.querySelectorAll("img").item(0);
+        var file = document.querySelector('input[type=file').files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function() {
+            preview.src = reader.result;
+        };
+        if(file) {
+            vm.aux = true;
+            reader.readAsDataURL(file);
+        }else{
+            preview.src = "";
+        }
+    }
+
     vm.listaUF = [
         { "id": "RO", "desc": "RO" },
         { "id": "AC", "desc": "AC" },
@@ -307,27 +305,4 @@ function PessoaIncluirAlterarController(
         { "id": "DF", "desc": "DF" }
     ];
 
-    vm.salvarEndereco = function () {
-
-        if(vm.enderecoNovo.id){
-            vm.alterar(vm.urlEndereco, angular.copy(vm.enderecoNovo));
-        } else {
-
-            if(vm.isEdicao) {
-                vm.enderecoNovo.idPessoa = vm.pessoa.id
-                vm.salvar(vm.urlEndereco, angular.copy(vm.enderecoNovo));
-            } else {
-                vm.pessoa.enderecos.push(angular.copy(vm.enderecoNovo));
-            }
-        }
-
-        vm.enderecoNovo = {
-            cep: null,
-            uf: null,
-            localidade: null,
-            bairro: null,
-            logradouro: null,
-            complemento: null
-        }
-    };
 }

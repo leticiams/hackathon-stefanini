@@ -44,18 +44,17 @@ public class EnderecoServico implements Serializable {
 		return json;
 	}
 
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public Endereco salvar(@Valid Endereco entity) {
 		return dao.salvar(entity);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-
 	public Endereco atualizar(@Valid Endereco entity) {
 		return dao.atualizar(entity);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-
 	public void remover(Long id) {
 	dao.remover(id);
 	}

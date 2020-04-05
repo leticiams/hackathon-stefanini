@@ -31,10 +31,8 @@ public class PessoaResource {
 	@GET
 	public Response obterPessoas() {
 		log.info("Obtendo lista de pessoas");
-		MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
-		Optional<List<Pessoa>> listPessoa = pessoaServico.getList();
-		return listPessoa.map(pessoas -> Response.ok(pessoas).build()).orElseGet(() -> Response.status(Status.NOT_FOUND).build());
-
+		return pessoaServico.buscarPessoaCheia().map(pessoas -> Response.ok(pessoas).build())
+				.orElseGet(() -> Response.status(Status.NOT_FOUND).build());
 	}
 
 	@GET
@@ -46,7 +44,7 @@ public class PessoaResource {
 
 	@POST
 	public Response adicionarPessoa(@Valid Pessoa pessoa) {
-		if(pessoaServico.validarPessoa(pessoa)){
+		if(!pessoaServico.validarPessoa(pessoa)){
 			return Response.ok(pessoaServico.salvar(pessoa)).build();
 		}
 		return Response.status(Status.METHOD_NOT_ALLOWED).entity(new ErroDto("email","email já existe", pessoa.getEmail())).build();

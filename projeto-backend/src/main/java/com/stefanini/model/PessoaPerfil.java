@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class PessoaPerfil implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "co_seq_pessoal_perfil")
     private Long id;
 
